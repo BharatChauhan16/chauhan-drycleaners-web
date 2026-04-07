@@ -81,7 +81,7 @@
     <section class="section bg-abyss">
       <div class="container">
         <div class="sec-head" v-obs>
-          <p class="sec-tag">What We Do</p>
+          <p class="sec-tag">What We Do </p>
           <h2>Complete <em class="accent">Garment Care</em> Solutions</h2>
           <p class="sec-sub">From everyday clothes to your most precious garments — handled with love and expertise.</p>
         </div>
