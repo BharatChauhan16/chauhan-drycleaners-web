@@ -10,22 +10,29 @@
             +91 85348 37704
           </a>
           <span class="sdiv"></span>
-          <a href="mailto:info@chauhandrycleaners.com" class="sl">
+          <a href="mailto:chauhandrycleaners05@gmail.com" class="sl">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
-            info@chauhandrycleaners.com
+            chauhandrycleaners05@gmail.com
           </a>
         </div>
         <div class="strip-right">
-          <span class="sl nd">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Mon–Sat 8AM–8PM &nbsp;·&nbsp; Sun 10AM–4PM
-          </span>
-          <span class="sdiv"></span>
-          <span class="open-badge">
-            <span class="open-dot"></span>
-            Open Now
-          </span>
-        </div>
+  <span class="sl nd">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12 6 12 12 16 14"/>
+    </svg>
+    Mon–Wed &amp; Fri–Sun 10:30AM–9PM &nbsp;·&nbsp; Tue 10:30AM–1PM
+  </span>
+  <span class="sdiv"></span>
+  <span class="open-badge" v-if="isOpenNow">
+    <span class="open-dot"></span>
+    Open Now
+  </span>
+  <span class="open-badge closed" v-else>
+    <span class="open-dot"></span>
+    Closed
+  </span>
+</div>
       </div>
     </div>
 
@@ -94,11 +101,11 @@
             </div>
           </router-link>
           <p>Premium garment care you can trust. Proudly serving Ludhiana &amp; Punjab since 2005 with warmth, expertise, and precision.</p>
-          <div class="fb-soc">
+          <!-- <div class="fb-soc">
             <a href="#" class="soc-btn" title="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
             <a href="#" class="soc-btn" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
             <a href="#" class="soc-btn" title="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></a>
-          </div>
+          </div> -->
         </div>
         <div class="fc">
           <h5>Navigate</h5>
@@ -111,9 +118,9 @@
         </div>
         <div class="fc">
           <h5>Reach Us</h5>
-          <a href="tel:+918534837704" class="fci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.02 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 14.9z"/></svg>+91 98765 43210</a>
-          <a href="mailto:info@chauhandrycleaners.com" class="fci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>info@chauhandrycleaners.com</a>
-          <div class="fci nd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>123 Main St, Civil Lines,<br>Ludhiana, Punjab 141001</span></div>
+          <a href="tel:+918534837704" class="fci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.02 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 14.9z"/></svg> +91 8534837704</a>
+          <a href="mailto:chauhandrycleaners05@gmail.com" class="fci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg> chauhandrycleaners05@gmail.com</a>
+          <div class="fci nd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>2, Khumran Pul Road, Nawabganj,<br>Khaaran, Saharanpur, UP 247001</span></div>
         </div>
       </div>
       <div class="foot-bar">
@@ -128,25 +135,61 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+
 const scrolled = ref(false)
 const mopen   = ref(false)
 const links   = [
-  { to: '/',        label: 'Home'     },
-  { to: '/services',label: 'Services' },
-  { to: '/about',   label: 'About Us' },
-  { to: '/contact', label: 'Contact'  },
+  { to: '/',         label: 'Home'     },
+  { to: '/services', label: 'Services' },
+  { to: '/about',    label: 'About Us' },
+  { to: '/contact',  label: 'Contact'  },
 ]
 const svcs = [
   'Clothes Washing','Dry Cleaning','Ironing & Pressing',
   'Blankets & Quilts','Wedding Outfit Care','Express Service',
 ]
+
+// ── Open Now logic ──────────────────────────────────────────
+const now = ref(new Date())
+let clockTimer = null
+
+// Schedule:
+//   Tuesday  → 10:30 – 13:00  (half day)
+//   All else → 10:30 – 21:00
+const isOpenNow = computed(() => {
+  const d   = now.value
+  const day = d.getDay()          // 0 Sun … 6 Sat
+  const min = d.getHours() * 60 + d.getMinutes()
+
+  const open  = 10 * 60 + 30     // 10:30 → 630 min
+  const closeNormal  = 21 * 60   // 21:00 → 1260 min
+  const closeTuesday = 13 * 60   // 13:00 → 780 min
+
+  const closeTime = (day === 2) ? closeTuesday : closeNormal
+  return min >= open && min < closeTime
+})
+
+// ── Scroll handler ───────────────────────────────────────────
 function onScroll() { scrolled.value = window.scrollY > 40 }
-onMounted(()  => window.addEventListener('scroll', onScroll, { passive: true }))
-onUnmounted(()=> window.removeEventListener('scroll', onScroll))
+
+onMounted(() => {
+  window.addEventListener('scroll', onScroll, { passive: true })
+  // Refresh `now` every minute so the badge stays accurate
+  clockTimer = setInterval(() => { now.value = new Date() }, 60_000)
+})
+onUnmounted(() => {
+  window.removeEventListener('scroll', onScroll)
+  clearInterval(clockTimer)
+})
 </script>
 
 <style>
+.open-badge.closed .open-dot {
+  background: #ef4444;   /* red dot when closed */
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, .25);
+  animation: none;
+}
 /* ══════════════════════════════════════════
    HARD RESET — override any inherited styles
    These are unscoped so they win everywhere

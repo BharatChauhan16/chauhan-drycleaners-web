@@ -107,17 +107,19 @@
               </div>
             </div>
 
-            <!-- MAP -->
+            <!-- MAP — real embed -->
             <div class="info-card map-card">
               <h4><span>📍</span> Find Us</h4>
-              <div class="map-box">
-                <div class="map-pin">📍</div>
-                <div class="map-ripple"></div>
+              <div class="map-embed-wrap">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3456.1503448841318!2d77.549493475388!3d29.975108974958538!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390eebc23fc72d85%3A0x265c10d31a584b72!2sChauhan%20Dry%20Cleaners!5e0!3m2!1sen!2sin!4v1775687465155!5m2!1sen!2sin"
+                  width="100%" height="160" style="border:0; border-radius: 10px; display: block;" allowfullscreen=""
+                  loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
               </div>
               <div class="map-addr">
-                <strong>Chauhan DryCleaners</strong>
-                <p>123 Main Street, Civil Lines<br />Ludhiana, Punjab 141001</p>
-                <a href="https://maps.google.com" target="_blank" class="dir-link">
+                <strong>Chauhan Dry Cleaners</strong>
+                <p>2, Khumran Pul Road, Nawabganj<br />Khaaran, Saharanpur, UP 247001</p>
+                <a href="https://maps.app.goo.gl/3n8PKJzi1ZVLmwMb8" target="_blank" class="dir-link">
                   Get Directions
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
@@ -172,9 +174,10 @@ const c = ref({ name: '', phone: '', email: '', subject: '', message: '' })
 
 const cards = [
   { icon: '📞', label: 'Call Us', value: '+91 85348 37704', action: 'Tap to call', href: 'tel:+918534837704' },
-  { icon: '✉️', label: 'Email Us', value: 'info@chauhandrycleaners.com', action: 'Tap to email', href: 'mailto:info@chauhandrycleaners.com' },
+  { icon: '✉️', label: 'Email Us', value: 'chauhandrycleaners05@gmail.com', action: 'Tap to email', href: 'mailto:chauhandrycleaners05@gmail.com' },
   { icon: '💬', label: 'WhatsApp', value: '+91 85348 37704', action: 'Chat with us', href: 'https://wa.me/918534837704' },
-  { icon: '📍', label: 'Visit Us', value: 'Civil Lines, Ludhiana', action: 'Get directions', href: 'https://maps.google.com' },
+  // ✅ Updated href to real Maps link
+  { icon: '📍', label: 'Visit Us', value: 'Nawabganj, Saharanpur', action: 'Get directions', href: 'https://maps.app.goo.gl/3n8PKJzi1ZVLmwMb8' },
 ]
 
 const subjects = [
@@ -469,11 +472,12 @@ form {
   color: var(--fog);
 }
 
+/* ✅ FIXED: input/select/textarea with better dark bg + gold focus */
 .fg input,
 .fg select,
 .fg textarea {
   background: var(--panel);
-  border: 1px solid var(--rim);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
   color: var(--cream);
   font-family: 'DM Sans', system-ui, sans-serif;
   font-size: 13.5px;
@@ -481,13 +485,22 @@ form {
   border-radius: 11px;
   outline: none;
   transition: border-color .2s, box-shadow .2s;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .fg input:focus,
 .fg select:focus,
 .fg textarea:focus {
   border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(232, 160, 32, .12);
+  box-shadow: 0 0 0 3px rgba(232, 160, 32, 0.18), inset 0 0 0 1px rgba(232, 160, 32, 0.08);
+  background: #1f2d42;
+}
+
+.fg input:hover:not(:focus),
+.fg select:hover:not(:focus),
+.fg textarea:hover:not(:focus) {
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
 .fg input::placeholder,
@@ -495,8 +508,31 @@ form {
   color: var(--mist);
 }
 
+/* ✅ FIXED: dropdown options — dark bg, cream text, visible */
+.fg select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E8A020' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 13px center;
+  background-size: 15px;
+  padding-right: 38px;
+  cursor: pointer;
+}
+
 .fg select option {
-  background: var(--slate);
+  background-color: #1A2333;
+  color: #F2EDE4;
+  font-size: 13.5px;
+  padding: 10px 14px;
+}
+
+.fg select option:disabled {
+  color: rgba(242, 237, 228, 0.38);
+}
+
+.fg select option:hover,
+.fg select option:checked {
+  background-color: #2a3a52;
+  color: #F5C842;
 }
 
 .fg textarea {
@@ -508,6 +544,7 @@ form {
 .fg.err select,
 .fg.err textarea {
   border-color: #F87171;
+  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.12);
 }
 
 .em {
@@ -657,65 +694,12 @@ form {
   letter-spacing: .05em;
 }
 
-/* MAP */
-.map-box {
-  background: var(--panel);
-  border: 1px solid var(--rim);
-  border-radius: 13px;
-  height: 110px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+/* ✅ MAP — real embed wrapper */
+.map-embed-wrap {
+  border-radius: 10px;
   overflow: hidden;
   margin-bottom: 15px;
-}
-
-.map-box::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(232, 160, 32, .07), transparent 65%);
-}
-
-.map-pin {
-  font-size: 30px;
-  position: relative;
-  z-index: 1;
-  animation: mpin 2s ease-in-out infinite;
-}
-
-@keyframes mpin {
-
-  0%,
-  100% {
-    transform: translateY(0)
-  }
-
-  50% {
-    transform: translateY(-7px)
-  }
-}
-
-.map-ripple {
-  position: absolute;
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(232, 160, 32, .25);
-  animation: mripple 2s ease infinite;
-}
-
-@keyframes mripple {
-  0% {
-    transform: scale(.5);
-    opacity: 1
-  }
-
-  100% {
-    transform: scale(2);
-    opacity: 0
-  }
+  border: 1px solid var(--rim);
 }
 
 .map-addr strong {
