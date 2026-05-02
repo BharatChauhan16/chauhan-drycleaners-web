@@ -24,23 +24,30 @@
       <div class="container story-grid">
         <div class="story-left" v-obs>
           <p class="sec-tag">Who We Are</p>
-          <h2>Ludhiana's Most <em class="accent">Trusted</em> Dry Cleaners</h2>
-          <p>Chauhan DryCleaners was founded in 2005 by Ramesh Chauhan with a simple belief: every garment deserves
-            expert care. What started as a small neighbourhood dry cleaning shop in Civil Lines has grown into one of
-            Punjab's most trusted garment care destinations.</p>
-          <p>Today, our family-run business serves thousands of happy customers across Ludhiana, Jalandhar, and
-            Chandigarh — providing premium garment care with the warmth and personal touch that only a family business
+          <h2>Saharanpur's Most <em class="accent">Trusted</em> Dry Cleaners</h2>
+          <p>Chauhan DryCleaners was founded in 2005 by Sunil Chauhan with a simple belief: every garment deserves
+            expert care. What started as a small neighbourhood dry cleaning shop has grown into one of
+            Uttar Pradesh's most trusted garment care destinations.</p>
+          <p>Today, our family-run business serves thousands of happy customers across Saharanpur and the surrounding
+            region — providing premium garment care with the warmth and personal touch that only a family business
             can offer.</p>
           <p>We've invested in the latest cleaning technology, hired and trained expert professionals, and built systems
             to ensure every garment — from your everyday shirt to your priceless wedding lehenga — receives the
             individual attention it deserves.</p>
+          <div class="address-box" v-obs>
+            <span class="addr-ico">📍</span>
+            <div>
+              <strong>Visit Us</strong>
+              <p>2, Khumran Pul Road, Nawabganj Khaaran,<br />Saharanpur, UP 247001</p>
+            </div>
+          </div>
         </div>
         <div class="story-right" v-obs>
           <div class="year-card">
             <div class="yc-shine"></div>
             <div class="yc-label">Since</div>
             <div class="yc-year">2005</div>
-            <div class="yc-sub">Serving Ludhiana with pride</div>
+            <div class="yc-sub">Serving Saharanpur with pride</div>
           </div>
           <div class="s-stat ss1"><strong>18+</strong><span>Years</span></div>
           <div class="s-stat ss2"><strong>5K+</strong><span>Customers</span></div>
@@ -49,8 +56,41 @@
       </div>
     </section>
 
-    <!-- VALUES -->
+    <!-- FOUNDER SPOTLIGHT -->
     <section class="section bg-abyss">
+      <div class="container">
+        <div class="sec-head" v-obs>
+          <p class="sec-tag">Our Founder</p>
+          <h2>The Man Behind <em class="accent">The Vision</em></h2>
+        </div>
+        <div class="founder-card" v-obs>
+          <div class="founder-portrait">
+            <div class="fp-ring"></div>
+            <div class="fp-av">SC</div>
+            <div class="fp-badge">Founder</div>
+          </div>
+          <div class="founder-info">
+            <h3>Mr. Sunil Chauhan</h3>
+            <p class="founder-title">Founder &amp; Owner, Chauhan DryCleaners</p>
+            <p>With over 25 years of hands-on experience in the textile care industry, Mr. Sunil Chauhan established
+              Chauhan DryCleaners in 2005 with a singular vision — to bring truly professional, premium-quality garment
+              care to the people of Saharanpur. His deep knowledge of fabrics, cleaning chemistry, and customer service
+              has been the cornerstone of the business's growth and reputation.</p>
+            <p>Under his leadership, Chauhan DryCleaners has transformed from a single neighbourhood shop into the
+              region's most trusted name in garment care — known for treating every piece of clothing with the same
+              care and precision it deserves.</p>
+            <div class="founder-stats">
+              <div class="fs-item"><strong>25+</strong><span>Years Experience</span></div>
+              <div class="fs-item"><strong>2005</strong><span>Founded</span></div>
+              <div class="fs-item"><strong>50K+</strong><span>Garments Cared</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VALUES -->
+    <section class="section">
       <div class="container">
         <div class="sec-head" v-obs>
           <p class="sec-tag">Our Values</p>
@@ -69,7 +109,7 @@
     </section>
 
     <!-- TEAM -->
-    <section class="section">
+    <section class="section bg-abyss">
       <div class="container">
         <div class="sec-head" v-obs>
           <p class="sec-tag">Our Team</p>
@@ -77,7 +117,9 @@
         </div>
         <div class="team-grid">
           <div v-for="(m, i) in team" :key="m.name" class="team-card" v-obs :style="{ '--d': i * 0.09 + 's' }">
-            <div class="tc-av">{{ m.name[0] }}</div>
+            <div class="tc-portrait" :class="m.portraitClass">
+              <div class="tc-av">{{m.name.split(' ').map(n => n[0]).join('').slice(0, 2)}}</div>
+            </div>
             <h4>{{ m.name }}</h4>
             <p class="tc-role">{{ m.role }}</p>
             <p class="tc-desc">{{ m.desc }}</p>
@@ -86,21 +128,29 @@
       </div>
     </section>
 
-    <!-- CERTS -->
-    <section class="section bg-abyss">
+    <!-- DROP-OFF & EXPRESS CARE -->
+    <section class="section">
       <div class="container">
         <div class="sec-head" v-obs>
-          <p class="sec-tag">Recognition</p>
-          <h2>Awards &amp; <em class="accent">Certifications</em></h2>
+          <p class="sec-tag">Our Service</p>
+          <h2>Drop-Off &amp; <em class="accent">Express Care</em></h2>
+          <p class="sec-sub">Bring your garments to us and experience the Chauhan difference — personally.</p>
         </div>
-        <div class="certs-grid">
-          <div v-for="c in certs" :key="c.title" class="cert-card" v-obs>
-            <span class="cert-ico">{{ c.icon }}</span>
-            <div>
-              <h4>{{ c.title }}</h4>
-              <p>{{ c.year }}</p>
-            </div>
+        <div class="dropoff-grid">
+          <div v-for="(s, i) in dropoffSteps" :key="s.title" class="do-card" v-obs :style="{ '--d': i * 0.1 + 's' }">
+            <div class="do-num">{{ String(i + 1).padStart(2, '0') }}</div>
+            <span class="do-ico">{{ s.icon }}</span>
+            <h3>{{ s.title }}</h3>
+            <p>{{ s.desc }}</p>
           </div>
+        </div>
+        <div class="do-visit-banner" v-obs>
+          <span class="do-banner-ico">📍</span>
+          <div>
+            <strong>Visit our store directly</strong>
+            <p>2, Khumran Pul Road, Nawabganj Khaaran, Saharanpur, UP 247001</p>
+          </div>
+          <router-link to="/contact" class="btn-gold do-btn">Get Directions</router-link>
         </div>
       </div>
     </section>
@@ -112,7 +162,7 @@
         <h2>Ready to Experience the Difference?</h2>
         <p>Join thousands of happy customers who trust Chauhan DryCleaners.</p>
         <div class="cta-btns">
-          <router-link to="/booking" class="btn-gold">Book Free Pickup</router-link>
+          <router-link to="/contact" class="btn-gold">Visit Our Store</router-link>
           <router-link to="/contact" class="btn-ghost">Contact Us</router-link>
         </div>
       </div>
@@ -137,25 +187,47 @@ const values = [
   { icon: '🏆', title: 'Excellence First', desc: 'We never compromise on quality. Every garment is treated with the highest standards and individual attention.' },
   { icon: '🤝', title: 'Customer Trust', desc: 'Your satisfaction is our mission. We stand behind every service with our 100% satisfaction guarantee.' },
   { icon: '🌿', title: 'Eco-Conscious', desc: 'We use biodegradable, eco-friendly cleaning solvents that are gentle on your clothes and the planet.' },
-  { icon: '⚡', title: 'Reliability', desc: 'Punctual pickup, on-time delivery, and consistent quality — every single time, without fail.' },
+  { icon: '⚡', title: 'Reliability', desc: 'Punctual service and consistent quality — every single time, without fail.' },
   { icon: '🔬', title: 'Innovation', desc: 'We continuously upgrade our technology and training to offer the most advanced garment care available.' },
-  { icon: '❤️', title: 'Community', desc: 'Proud to serve Ludhiana for 18+ years. This city is our home and its people are our inspiration.' },
+  { icon: '❤️', title: 'Community', desc: 'Proud to serve Saharanpur for 18+ years. This city is our home and its people are our inspiration.' },
 ]
 
 const team = [
-  { name: 'Ramesh Chauhan', role: 'Founder & Owner', desc: 'With 25+ years in the textile care industry, Ramesh founded Chauhan DryCleaners with a vision of bringing premium quality care to Ludhiana.' },
-  { name: 'Sunita Chauhan', role: 'Operations Manager', desc: 'Sunita oversees daily operations, quality control, and customer experience — ensuring every garment leaves perfectly cared for.' },
-  { name: 'Amit Sharma', role: 'Head Technician', desc: 'Amit leads our team of trained professionals and specializes in bridal and luxury outfit restoration.' },
-  { name: 'Priya Verma', role: 'Customer Relations', desc: 'Priya manages all customer inquiries, bookings, and ensures every client receives prompt, courteous service.' },
+  {
+    name: 'Sunil Chauhan',
+    role: 'Founder & Owner',
+    desc: 'With 25+ years in the textile care industry, Sunil founded Chauhan DryCleaners with a vision of bringing premium quality garment care to Saharanpur.',
+    portraitClass: 'portrait-gold'
+  },
+  {
+    name: 'Poonam Chauhan',
+    role: 'Co-Owner & Operations Head',
+    desc: 'Poonam manages daily operations, quality control, and customer experience — ensuring every garment leaves perfectly cared for with a personal touch.',
+    portraitClass: 'portrait-teal'
+  },
 ]
 
-const certs = [
-  { icon: '🏅', title: 'Best Dry Cleaner, Ludhiana 2022', year: 'City Business Awards 2022' },
-  { icon: '🌟', title: 'Top-Rated Service Provider', year: 'Google Reviews – 4.9★ (500+ reviews)' },
-  { icon: '✅', title: 'ISO 9001:2015 Certified', year: 'Quality Management System' },
-  { icon: '🌿', title: 'Eco-Friendly Business Certification', year: 'Punjab Green Business Initiative' },
-  { icon: '🏆', title: '5-Star Customer Satisfaction', year: 'Punjab Retail Excellence Awards 2021' },
-  { icon: '🔒', title: 'Trusted Local Business Badge', year: 'Ludhiana Chamber of Commerce' },
+const dropoffSteps = [
+  {
+    icon: '🧺',
+    title: 'Bring Your Garments',
+    desc: 'Walk into our store at Nawabganj Khaaran with your garments. Our team will greet you warmly and inspect each item.'
+  },
+  {
+    icon: '🔍',
+    title: 'Free Garment Inspection',
+    desc: 'We carefully examine every piece for stains, fabric type, and any special care requirements before quoting a price.'
+  },
+  {
+    icon: '✨',
+    title: 'Expert Cleaning',
+    desc: 'Your garments are cleaned using professional-grade equipment and eco-friendly solvents suited to each fabric.'
+  },
+  {
+    icon: '📦',
+    title: 'Ready for Collection',
+    desc: 'We notify you when your clothes are ready. Collect them at your convenience — fresh, clean, and perfectly pressed.'
+  },
 ]
 </script>
 
@@ -251,6 +323,7 @@ const certs = [
   line-height: 1.8;
 }
 
+/* PAGE HERO */
 .page-hero {
   background: var(--abyss);
   position: relative;
@@ -349,6 +422,40 @@ const certs = [
   margin-bottom: 15px;
 }
 
+.address-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: var(--slate);
+  border: 1px solid var(--rim2);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-top: 24px;
+}
+
+.addr-ico {
+  font-size: 22px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.address-box strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 5px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.address-box p {
+  font-size: 13.5px !important;
+  color: var(--fog);
+  line-height: 1.7 !important;
+  margin-bottom: 0 !important;
+}
+
 .story-right {
   position: relative;
   padding: 24px;
@@ -434,6 +541,119 @@ const certs = [
   right: 16px;
 }
 
+/* FOUNDER SPOTLIGHT */
+.founder-card {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 64px;
+  align-items: center;
+  background: var(--slate);
+  border: 1px solid var(--rim2);
+  border-radius: 26px;
+  padding: 52px;
+}
+
+.founder-portrait {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.fp-ring {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 2px solid rgba(232, 160, 32, .22);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.fp-av {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), #b36a00);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+  border: 3px solid rgba(232, 160, 32, .35);
+}
+
+.fp-badge {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 50px;
+  position: relative;
+  z-index: 1;
+}
+
+.founder-info h3 {
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 2.8vw, 2.4rem);
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.founder-title {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
+
+.founder-info p {
+  color: var(--fog);
+  font-size: 14.5px;
+  line-height: 1.85;
+  margin-bottom: 14px;
+}
+
+.founder-stats {
+  display: flex;
+  gap: 28px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rim);
+}
+
+.fs-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.fs-item strong {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.fs-item span {
+  font-size: 11px;
+  color: var(--fog);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin-top: 5px;
+}
+
 /* VALUES */
 .values-grid {
   display: grid;
@@ -492,7 +712,7 @@ const certs = [
 /* TEAM */
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 18px;
 }
 
@@ -510,19 +730,37 @@ const certs = [
   border-color: var(--rim2);
 }
 
-.tc-av {
-  width: 60px;
-  height: 60px;
+.tc-portrait {
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold), var(--teal));
+  margin: 0 auto 15px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+.portrait-gold {
+  background: linear-gradient(135deg, var(--gold), #b36a00);
+  border: 3px solid rgba(232, 160, 32, .35);
+}
+
+.portrait-teal {
+  background: linear-gradient(135deg, var(--teal-lt), var(--teal));
+  border: 3px solid rgba(14, 165, 160, .35);
+}
+
+.portrait-slate {
+  background: linear-gradient(135deg, #3a4a60, #1A2333);
+  border: 3px solid var(--rim);
+}
+
+.tc-av {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 800;
   font-size: 1.4rem;
   color: #fff;
-  margin: 0 auto 15px;
 }
 
 .team-card h4 {
@@ -546,42 +784,89 @@ const certs = [
   line-height: 1.65;
 }
 
-/* CERTS */
-.certs-grid {
+/* DROP-OFF & EXPRESS CARE */
+.dropoff-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 40px;
 }
 
-.cert-card {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+.do-card {
   background: var(--slate);
   border: 1px solid var(--rim);
-  border-radius: 14px;
-  padding: 19px 22px;
-  transition: all .2s;
+  border-radius: 19px;
+  padding: 30px 24px;
+  position: relative;
+  overflow: hidden;
+  transition: all .3s;
 }
 
-.cert-card:hover {
+.do-card:hover {
+  transform: translateY(-4px);
   border-color: var(--rim2);
 }
 
-.cert-ico {
-  font-size: 26px;
+.do-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  font-weight: 900;
+  color: rgba(232, 160, 32, .12);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.do-ico {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 14px;
+}
+
+.do-card h3 {
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 9px;
+}
+
+.do-card p {
+  color: var(--fog);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.do-visit-banner {
+  background: var(--slate);
+  border: 1px solid var(--rim2);
+  border-radius: 16px;
+  padding: 22px 28px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.do-banner-ico {
+  font-size: 28px;
   flex-shrink: 0;
 }
 
-.cert-card h4 {
-  font-size: 13.5px;
-  font-weight: 600;
-  margin-bottom: 3px;
+.do-visit-banner strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--cream);
 }
 
-.cert-card p {
-  font-size: 11.5px;
+.do-visit-banner p {
+  font-size: 13px;
   color: var(--fog);
+}
+
+.do-btn {
+  margin-left: auto;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* ABOUT CTA */
@@ -670,6 +955,7 @@ const certs = [
   background: var(--gold-glow);
 }
 
+/* RESPONSIVE */
 @media(max-width:1024px) {
   .story-grid {
     grid-template-columns: 1fr;
@@ -680,6 +966,21 @@ const certs = [
     display: none;
   }
 
+  .founder-card {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    text-align: center;
+    padding: 36px 28px;
+  }
+
+  .founder-portrait {
+    margin: 0 auto;
+  }
+
+  .founder-stats {
+    justify-content: center;
+  }
+
   .values-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -688,8 +989,18 @@ const certs = [
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .certs-grid {
+  .dropoff-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .do-visit-banner {
+    flex-wrap: wrap;
+  }
+
+  .do-btn {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
   }
 }
 
@@ -706,7 +1017,7 @@ const certs = [
     grid-template-columns: 1fr 1fr;
   }
 
-  .certs-grid {
+  .dropoff-grid {
     grid-template-columns: 1fr;
   }
 }
