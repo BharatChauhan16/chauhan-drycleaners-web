@@ -1,20 +1,5 @@
 <template>
-  <div class="home" ref="homeRef" @mousemove="onMouseMove" @mouseleave="onMouseLeave">
-
-    <!-- ══════════════════ CUSTOM CURSOR ══════════════════ -->
-    <div class="cursor-ring" ref="cursorRing"></div>
-    <div class="cursor-dot" ref="cursorDot"></div>
-    <div class="cursor-trail" v-for="(t, i) in trails" :key="i" :ref="el => trailRefs[i] = el"></div>
-
-    <!-- ══════════════════ FLOATING STICKERS (follow cursor) ══════════════════ -->
-    <div class="sticker-field">
-      <div v-for="(s, i) in stickers" :key="i" class="sticker" :class="{ 'sticker-active': s.active }"
-        :ref="el => stickerEls[i] = el" :style="getStickerStyle(s, i)" @mouseenter="activateSticker(i)"
-        @mouseleave="deactivateSticker(i)">
-        <span class="sticker-inner">{{ s.e }}</span>
-        <span class="sticker-shadow">{{ s.e }}</span>
-      </div>
-    </div>
+  <div class="home" ref="homeRef">
 
     <!-- ══════════════════ HERO ══════════════════ -->
     <section class="hero">
@@ -46,21 +31,38 @@
         </p>
 
         <div class="hero-cta" :class="{ in: vis }">
-          <router-link to="/booking" class="btn-gold magnetic" data-magnetic>
-            <span class="magnetic-text">Book Free Pickup</span>
+          <router-link to="/booking" class="btn-gold">
+            <span>Book Free Pickup</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </router-link>
-          <router-link to="/services" class="btn-ghost magnetic" data-magnetic>
+          <router-link to="/services" class="btn-ghost">
             Explore Services
           </router-link>
         </div>
 
         <div class="hero-pills" :class="{ in: vis }">
-          <div class="pill tilt-card" v-for="s in stats" :key="s.label" @mousemove="tiltCard" @mouseleave="resetTilt">
+          <div class="pill" v-for="s in stats" :key="s.label">
             <strong>{{ s.value }}</strong>
             <span>{{ s.label }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero image panel -->
+      <div class="hero-image-panel" :class="{ in: vis }">
+        <div class="hip-inner">
+          <img src="https://images.unsplash.com/photo-1545173168-9f1947eebb7f?w=700&q=80"
+            alt="Professional dry cleaning" class="hip-img hip-main" />
+          <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=340&q=80" alt="Garment care"
+            class="hip-img hip-side" />
+          <div class="hip-badge">
+            <span class="hb-icon">⭐</span>
+            <div>
+              <strong>4.9 / 5</strong>
+              <small>Customer Rating</small>
+            </div>
           </div>
         </div>
       </div>
@@ -77,21 +79,58 @@
       </div>
     </div>
 
+    <!-- ══════════════════ ABOUT STRIP ══════════════════ -->
+    <section class="about-strip section bg-void">
+      <div class="container about-row">
+        <div class="about-images" v-obs>
+          <img src="https://images.unsplash.com/photo-1604335399105-a0c585fd81a1?w=520&q=80"
+            alt="Dry cleaning professional" class="ab-img ab-big" />
+          <img src="https://images.unsplash.com/photo-1621944190310-e3cca1564bd7?w=320&q=80" alt="Clothes on hanger"
+            class="ab-img ab-sm" />
+          <div class="ab-badge">
+            <strong>18+</strong>
+            <span>Years of Expertise</span>
+          </div>
+        </div>
+        <div class="about-text" v-obs>
+          <p class="sec-tag">About Chauhan</p>
+          <h2>Ludhiana's Most <em class="accent">Trusted</em> Dry Cleaners</h2>
+          <p class="about-body">For over 18 years, we've been Punjab's premier garment care specialists. Our trained
+            professionals combine traditional expertise with modern technology to deliver flawless results every single
+            time.</p>
+          <div class="about-checks">
+            <div class="ac-item" v-for="f in aboutPoints" :key="f">
+              <span class="ac-check">✓</span>
+              <span>{{ f }}</span>
+            </div>
+          </div>
+          <router-link to="/about" class="btn-outline" style="margin-top:32px">
+            Learn More About Us
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </router-link>
+        </div>
+      </div>
+    </section>
+
     <!-- ══════════════════ SERVICES ══════════════════ -->
     <section class="section bg-abyss">
       <div class="container">
         <div class="sec-head" v-obs>
-          <p class="sec-tag">What We Do </p>
+          <p class="sec-tag">What We Do</p>
           <h2>Complete <em class="accent">Garment Care</em> Solutions</h2>
           <p class="sec-sub">From everyday clothes to your most precious garments — handled with love and expertise.</p>
         </div>
 
         <div class="svc-grid">
-          <div v-for="(s, i) in services" :key="s.title" class="svc-card tilt-card"
-            :class="{ large: s.large, featured: s.featured }" v-obs :style="{ '--d': i * 0.07 + 's' }"
-            @mousemove="tiltCard" @mouseleave="resetTilt">
+          <div v-for="(s, i) in services" :key="s.title" class="svc-card"
+            :class="{ large: s.large, featured: s.featured }" v-obs :style="{ '--d': i * 0.07 + 's' }">
+            <div class="svc-img-wrap" v-if="s.img">
+              <img :src="s.img" :alt="s.title" class="svc-img" />
+              <div class="svc-img-overlay"></div>
+            </div>
             <div class="svc-inner-glow"></div>
-            <div class="cursor-spotlight"></div>
             <div class="svc-icon">{{ s.icon }}</div>
             <div class="svc-content">
               <h3>{{ s.title }}</h3>
@@ -111,7 +150,7 @@
         </div>
 
         <div class="sec-link" v-obs>
-          <router-link to="/services" class="btn-outline magnetic" data-magnetic>
+          <router-link to="/services" class="btn-outline">
             View All Services &amp; Pricing
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M5 12h14M12 5l7 7-7 7" />
@@ -131,14 +170,22 @@
         </div>
 
         <div class="proc-grid">
-          <div v-for="(step, i) in steps" :key="step.title" class="proc-card tilt-card" v-obs
-            :style="{ '--d': i * 0.1 + 's' }" @mousemove="tiltCard" @mouseleave="resetTilt">
-            <div class="cursor-spotlight"></div>
+          <div v-for="(step, i) in steps" :key="step.title" class="proc-card" v-obs :style="{ '--d': i * 0.1 + 's' }">
             <div class="proc-num">0{{ i + 1 }}</div>
             <div class="proc-icon">{{ step.icon }}</div>
             <h4>{{ step.title }}</h4>
             <p>{{ step.desc }}</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ IMAGE GALLERY STRIP ══════════════════ -->
+    <section class="gallery-strip" v-obs>
+      <div class="gallery-track">
+        <div class="gal-item" v-for="(img, i) in galleryImages" :key="i">
+          <img :src="img.src" :alt="img.alt" />
+          <div class="gal-caption">{{ img.caption }}</div>
         </div>
       </div>
     </section>
@@ -153,8 +200,7 @@
             the latest technology to care for your garments with the attention they deserve.</p>
 
           <div class="why-feats">
-            <div class="wf tilt-card" v-for="f in features" :key="f.title" @mousemove="tiltCard"
-              @mouseleave="resetTilt">
+            <div class="wf" v-for="f in features" :key="f.title">
               <div class="wf-icon">{{ f.icon }}</div>
               <div>
                 <h4>{{ f.title }}</h4>
@@ -163,7 +209,7 @@
             </div>
           </div>
 
-          <router-link to="/about" class="btn-outline magnetic" style="margin-top:32px" data-magnetic>
+          <router-link to="/about" class="btn-outline" style="margin-top:32px">
             Learn More About Us
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M5 12h14M12 5l7 7-7 7" />
@@ -172,9 +218,13 @@
         </div>
 
         <div class="why-right" v-obs>
-          <div class="why-card tilt-card" @mousemove="tiltCard" @mouseleave="resetTilt">
-            <div class="cursor-spotlight"></div>
-            <div class="wc-shine"></div>
+          <div class="why-img-stack">
+            <img src="https://images.unsplash.com/photo-1562157873-818bc0726f68?w=520&q=80"
+              alt="Wedding outfit dry cleaning" class="ws-main" />
+            <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=300&q=80" alt="Dress care"
+              class="ws-accent" />
+          </div>
+          <div class="why-card">
             <div class="wc-top">
               <span class="wc-icon">👰</span>
               <span class="wc-badge">Most Popular</span>
@@ -209,9 +259,7 @@
         </div>
 
         <div class="testi-grid">
-          <div v-for="(t, i) in testimonials" :key="t.name" class="testi-card tilt-card" v-obs
-            :style="{ '--d': i * 0.08 + 's' }" @mousemove="tiltCard" @mouseleave="resetTilt">
-            <div class="cursor-spotlight"></div>
+          <div v-for="(t, i) in testimonials" :key="t.name" class="testi-card" v-obs :style="{ '--d': i * 0.08 + 's' }">
             <div class="tq">"</div>
             <div class="t-stars">★★★★★</div>
             <p>{{ t.text }}</p>
@@ -230,6 +278,11 @@
 
     <!-- ══════════════════ CTA ══════════════════ -->
     <section class="cta-band" v-obs>
+      <div class="cta-bg-img">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=80"
+          alt="Dry cleaning background" />
+        <div class="cta-overlay"></div>
+      </div>
       <div class="cta-light"></div>
       <div class="cta-mesh"></div>
       <div class="container cta-row">
@@ -238,13 +291,13 @@
           <p>Book your free pickup today. We collect, clean &amp; deliver right to your door.</p>
         </div>
         <div class="cta-btns">
-          <router-link to="/booking" class="btn-gold magnetic" data-magnetic>
+          <router-link to="/booking" class="btn-gold">
             <span>Schedule Free Pickup</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </router-link>
-          <a href="tel:+918534837704" class="btn-ghost-teal magnetic" data-magnetic>
+          <a href="tel:+918534837704" class="btn-ghost-teal">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path
                 d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.02 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.9z" />
@@ -259,220 +312,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, reactive } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 // ─── REFS ───
 const homeRef = ref(null)
 const canvasRef = ref(null)
-const cursorRing = ref(null)
-const cursorDot = ref(null)
 const vis = ref(false)
-const trailRefs = ref([])
-const stickerEls = ref([])
-
-// ─── CURSOR STATE ───
-const mouse = { x: 0, y: 0 }
-const ring = { x: 0, y: 0 }
-const trails = Array.from({ length: 8 }, () => reactive({ x: 0, y: 0 }))
-let trailPositions = Array.from({ length: 8 }, () => ({ x: 0, y: 0 }))
-let rafId = null
-let cursorEnlarged = false
-
-// ─── STICKERS (floating emoji near cursor) ───
-const stickers = reactive([
-  { e: '👔', x: 120, y: 200, active: false, vx: 0.3, vy: 0.2 },
-  { e: '✨', x: 300, y: 400, active: false, vx: -0.2, vy: 0.35 },
-  { e: '👗', x: 500, y: 150, active: false, vx: 0.25, vy: -0.3 },
-  { e: '🧺', x: 700, y: 350, active: false, vx: -0.35, vy: 0.2 },
-  { e: '👰', x: 900, y: 180, active: false, vx: 0.2, vy: 0.4 },
-  { e: '🥼', x: 1100, y: 420, active: false, vx: -0.3, vy: -0.25 },
-  { e: '⭐', x: 200, y: 600, active: false, vx: 0.4, vy: -0.2 },
-  { e: '🌿', x: 800, y: 550, active: false, vx: -0.2, vy: 0.3 },
-])
-
-// sticker target positions (float towards cursor with inertia)
-const stickerTargets = stickers.map(s => ({ x: s.x, y: s.y }))
-
-function getStickerStyle(s) {
-  return {
-    left: s.x + 'px',
-    top: s.y + 'px',
-  }
-}
-
-function activateSticker(i) { stickers[i].active = true }
-function deactivateSticker(i) { stickers[i].active = false }
-
-// ─── MOUSE MOVE ───
-function onMouseMove(e) {
-  mouse.x = e.clientX
-  mouse.y = e.clientY
-
-  // move cursor dot immediately
-  if (cursorDot.value) {
-    cursorDot.value.style.left = mouse.x + 'px'
-    cursorDot.value.style.top = mouse.y + 'px'
-  }
-
-  // cursor spotlight on cards
-  updateSpotlights(e)
-
-  // magnetic buttons
-  updateMagnetics(e)
-
-  // sticker drift towards cursor
-  stickerTargets.forEach((t, i) => {
-    const dist = Math.hypot(mouse.x - stickers[i].x, mouse.y - stickers[i].y)
-    if (dist < 260) {
-      // gently pull toward cursor
-      t.x += (mouse.x - stickers[i].x) * 0.0025
-      t.y += (mouse.y - stickers[i].y) * 0.0025
-    }
-  })
-}
-
-function onMouseLeave() {
-  if (cursorRing.value) cursorRing.value.style.opacity = '0'
-  if (cursorDot.value) cursorDot.value.style.opacity = '0'
-}
-
-// ─── ANIMATION LOOP ───
-function animLoop() {
-  // smooth ring follow
-  ring.x += (mouse.x - ring.x) * 0.12
-  ring.y += (mouse.y - ring.y) * 0.12
-  if (cursorRing.value) {
-    cursorRing.value.style.left = ring.x + 'px'
-    cursorRing.value.style.top = ring.y + 'px'
-    cursorRing.value.style.opacity = '1'
-  }
-  if (cursorDot.value) cursorDot.value.style.opacity = '1'
-
-  // trail positions — each follows the previous with delay
-  trailPositions[0].x += (mouse.x - trailPositions[0].x) * 0.22
-  trailPositions[0].y += (mouse.y - trailPositions[0].y) * 0.22
-  for (let i = 1; i < trails.length; i++) {
-    trailPositions[i].x += (trailPositions[i - 1].x - trailPositions[i].x) * 0.22
-    trailPositions[i].y += (trailPositions[i - 1].y - trailPositions[i].y) * 0.22
-  }
-  trailRefs.value.forEach((el, i) => {
-    if (!el) return
-    const p = trailPositions[i]
-    const scale = 1 - i * 0.1
-    const opacity = (1 - i / trails.length) * 0.35
-    el.style.left = p.x + 'px'
-    el.style.top = p.y + 'px'
-    el.style.opacity = opacity
-    el.style.transform = `translate(-50%,-50%) scale(${scale})`
-  })
-
-  // animate stickers with gentle bounce/float
-  const now = Date.now() / 1000
-  stickers.forEach((s, i) => {
-    // autonomous float
-    s.x += s.vx + Math.sin(now * 0.4 + i) * 0.15
-    s.y += s.vy + Math.cos(now * 0.3 + i * 0.7) * 0.15
-
-    // drift towards sticker target (cursor pull)
-    s.x += (stickerTargets[i].x - s.x) * 0.02
-    s.y += (stickerTargets[i].y - s.y) * 0.02
-
-    // reset target to current (so pull only happens near cursor)
-    stickerTargets[i].x = s.x
-    stickerTargets[i].y = s.y
-
-    // bounce off screen edges
-    const W = window.innerWidth, H = document.documentElement.scrollHeight
-    if (s.x < 60 || s.x > W - 60) { s.vx *= -1; s.x = Math.max(60, Math.min(W - 60, s.x)) }
-    if (s.y < 60 || s.y > H - 60) { s.vy *= -1; s.y = Math.max(60, Math.min(H - 60, s.y)) }
-
-    if (stickerEls.value[i]) {
-      stickerEls.value[i].style.left = s.x + 'px'
-      stickerEls.value[i].style.top = s.y + 'px'
-    }
-  })
-
-  rafId = requestAnimationFrame(animLoop)
-}
-
-// ─── CARD TILT ───
-function tiltCard(e) {
-  const card = e.currentTarget
-  const rect = card.getBoundingClientRect()
-  const cx = rect.left + rect.width / 2
-  const cy = rect.top + rect.height / 2
-  const dx = (e.clientX - cx) / (rect.width / 2)
-  const dy = (e.clientY - cy) / (rect.height / 2)
-  card.style.transform = `perspective(800px) rotateY(${dx * 9}deg) rotateX(${-dy * 9}deg) translateZ(8px)`
-  card.style.transition = 'transform 0.05s linear'
-
-  // move spotlight
-  const spot = card.querySelector('.cursor-spotlight')
-  if (spot) {
-    spot.style.left = `${e.clientX - rect.left}px`
-    spot.style.top = `${e.clientY - rect.top}px`
-    spot.style.opacity = '1'
-  }
-}
-
-function resetTilt(e) {
-  const card = e.currentTarget
-  card.style.transform = 'perspective(800px) rotateY(0deg) rotateX(0deg) translateZ(0)'
-  card.style.transition = 'transform 0.55s cubic-bezier(.03,.98,.52,.99)'
-  const spot = card.querySelector('.cursor-spotlight')
-  if (spot) spot.style.opacity = '0'
-}
-
-// ─── SPOTLIGHT ───
-function updateSpotlights(e) {
-  document.querySelectorAll('.cursor-spotlight').forEach(spot => {
-    const card = spot.parentElement
-    const rect = card.getBoundingClientRect()
-    if (
-      e.clientX >= rect.left && e.clientX <= rect.right &&
-      e.clientY >= rect.top && e.clientY <= rect.bottom
-    ) {
-      spot.style.left = `${e.clientX - rect.left}px`
-      spot.style.top = `${e.clientY - rect.top}px`
-    }
-  })
-}
-
-// ─── MAGNETIC BUTTONS ───
-function updateMagnetics(e) {
-  document.querySelectorAll('[data-magnetic]').forEach(btn => {
-    const rect = btn.getBoundingClientRect()
-    const cx = rect.left + rect.width / 2
-    const cy = rect.top + rect.height / 2
-    const dist = Math.hypot(e.clientX - cx, e.clientY - cy)
-    const range = 90
-
-    if (dist < range) {
-      const pull = (1 - dist / range) * 0.45
-      const dx = (e.clientX - cx) * pull
-      const dy = (e.clientY - cy) * pull
-      btn.style.transform = `translate(${dx}px, ${dy}px) scale(1.06)`
-      btn.style.transition = 'transform 0.12s ease'
-      // enlarge cursor ring
-      if (!cursorEnlarged && cursorRing.value) {
-        cursorRing.value.style.width = '64px'
-        cursorRing.value.style.height = '64px'
-        cursorRing.value.style.borderColor = 'rgba(232,160,32,0.8)'
-        cursorRing.value.style.mixBlendMode = 'normal'
-        cursorEnlarged = true
-      }
-    } else {
-      btn.style.transform = 'translate(0,0) scale(1)'
-      btn.style.transition = 'transform 0.45s cubic-bezier(.03,.98,.52,.99)'
-      if (cursorEnlarged && cursorRing.value) {
-        cursorRing.value.style.width = '38px'
-        cursorRing.value.style.height = '38px'
-        cursorRing.value.style.borderColor = 'rgba(232,160,32,0.55)'
-        cursorEnlarged = false
-      }
-    }
-  })
-}
 
 // ─── PARTICLES ───
 function initParticles() {
@@ -489,6 +334,7 @@ function initParticles() {
     dy: (Math.random() - .5) * .25,
     o: Math.random() * .3 + .05,
   }))
+  let animId
   function draw() {
     ctx.clearRect(0, 0, cv.width, cv.height)
     pts.forEach(p => {
@@ -500,7 +346,7 @@ function initParticles() {
       if (p.x < 0 || p.x > cv.width) p.dx *= -1
       if (p.y < 0 || p.y > cv.height) p.dy *= -1
     })
-    requestAnimationFrame(draw)
+    animId = requestAnimationFrame(draw)
   }
   draw()
   window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight })
@@ -522,11 +368,6 @@ const vObs = {
 onMounted(() => {
   setTimeout(() => { vis.value = true }, 80)
   initParticles()
-  animLoop()
-})
-
-onUnmounted(() => {
-  if (rafId) cancelAnimationFrame(rafId)
 })
 
 // ─── DATA ───
@@ -542,41 +383,65 @@ const marqueeItems = [
   'Wedding Outfits', 'Stain Treatment', 'Free Home Pickup', 'Express 24hr',
 ]
 
+const aboutPoints = [
+  'ISO-certified cleaning processes',
+  'Eco-friendly, biodegradable solvents',
+  'Free doorstep pickup & delivery',
+  '24-hour express turnaround available',
+  '100% satisfaction guarantee',
+  'Specialized bridal & luxury care',
+]
+
+const galleryImages = [
+  { src: 'https://images.unsplash.com/photo-1584184924103-e310d9dc82fc?w=400&q=80', alt: 'Dry cleaning process', caption: 'Professional Cleaning' },
+  { src: 'https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=400&q=80', alt: 'Garments on hangers', caption: 'Garment Care' },
+  { src: 'https://images.unsplash.com/photo-1567113463300-102a7eb3cb26?w=400&q=80', alt: 'Ironing service', caption: 'Expert Pressing' },
+  { src: 'https://images.unsplash.com/photo-1545173168-9f1947eebb7f?w=400&q=80', alt: 'Folded clothes', caption: 'Perfect Finish' },
+  { src: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80', alt: 'Wedding dress care', caption: 'Bridal Wear' },
+  { src: 'https://images.unsplash.com/photo-1604335399105-a0c585fd81a1?w=400&q=80', alt: 'Suit dry cleaning', caption: 'Suit Cleaning' },
+]
+
 const services = [
   {
     icon: '👕', title: 'Clothes Washing',
     desc: 'Machine and hand wash for everyday clothing with eco-friendly detergents.',
     items: [{ name: 'Shirt', price: '30' }, { name: 'Jeans', price: '50' }],
+    img: 'https://images.unsplash.com/photo-1545173168-9f1947eebb7f?w=600&q=80',
     large: false, featured: false,
   },
   {
     icon: '🥼', title: 'Dry Cleaning',
     desc: 'Professional dry cleaning for delicate, formal, and luxury garments requiring specialized care.',
     items: [{ name: 'Suit', price: '200' }, { name: 'Blazer', price: '180' }, { name: 'Sherwani', price: '350' }],
+    img: 'https://images.unsplash.com/photo-1604335399105-a0c585fd81a1?w=800&q=80',
     large: true, featured: true,
   },
   {
     icon: '🧺', title: 'Ironing & Pressing',
     desc: 'Steam ironing for a crisp, wrinkle-free professional finish.',
     items: [{ name: 'Shirt', price: '20' }, { name: 'Bundle 10', price: '150' }],
+    img: 'https://images.unsplash.com/photo-1567113463300-102a7eb3cb26?w=600&q=80',
     large: false, featured: false,
   },
   {
     icon: '🛏️', title: 'Blankets & Quilts',
     desc: 'Heavy-duty deep cleaning for all sizes of home textiles.',
     items: [{ name: 'Single', price: '150' }, { name: 'Double', price: '200' }],
+    img: null,
     large: false, featured: false,
   },
   {
     icon: '👰', title: 'Wedding Outfit Care',
     desc: 'Specialized care for lehengas, sarees, sherwanis — handled like precious heirlooms.',
     items: [{ name: 'Lehenga', price: '800' }, { name: 'Saree', price: '500' }, { name: 'Sherwani', price: '600' }],
+    img: 'https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800&q=80',
     large: true, featured: false,
   },
   {
     icon: '⚡', title: 'Express Service',
     desc: '24-hour turnaround for urgent needs. Your garments, fast.',
     items: [{ name: 'Express', price: '+50%' }],
+    img: null,
     large: false, featured: false,
   },
 ]
@@ -629,131 +494,6 @@ const testimonials = [
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-/* ─── CUSTOM CURSOR ─── */
-.home {
-  cursor: none;
-}
-
-.cursor-ring {
-  position: fixed;
-  width: 38px;
-  height: 38px;
-  border: 1.5px solid rgba(232, 160, 32, 0.55);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, opacity 0.3s ease;
-  mix-blend-mode: difference;
-  will-change: left, top;
-}
-
-.cursor-dot {
-  position: fixed;
-  width: 7px;
-  height: 7px;
-  background: var(--gold);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 10000;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 10px rgba(232, 160, 32, 0.9);
-  transition: opacity 0.3s ease;
-  will-change: left, top;
-}
-
-.cursor-trail {
-  position: fixed;
-  width: 8px;
-  height: 8px;
-  background: var(--gold-lt);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  will-change: left, top, opacity;
-}
-
-/* ─── FLOATING STICKERS ─── */
-.sticker-field {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 5;
-  overflow: hidden;
-}
-
-.sticker {
-  position: absolute;
-  pointer-events: auto;
-  user-select: none;
-  will-change: left, top;
-}
-
-.sticker-inner {
-  display: block;
-  font-size: 30px;
-  line-height: 1;
-  filter: drop-shadow(0 4px 12px rgba(232, 160, 32, 0.3));
-  transition: transform 0.3s cubic-bezier(.34, 1.56, .64, 1), filter 0.3s ease;
-  cursor: none;
-  animation: stickerFloat 6s ease-in-out infinite;
-}
-
-.sticker-shadow {
-  position: absolute;
-  top: 8px;
-  left: 2px;
-  font-size: 30px;
-  line-height: 1;
-  opacity: 0.15;
-  filter: blur(6px);
-  transform: scaleX(0.9);
-}
-
-.sticker:hover .sticker-inner,
-.sticker-active .sticker-inner {
-  transform: scale(1.5) rotate(15deg);
-  filter: drop-shadow(0 8px 24px rgba(232, 160, 32, 0.65));
-  animation-play-state: paused;
-}
-
-@keyframes stickerFloat {
-
-  0%,
-  100% {
-    transform: translateY(0) rotate(-3deg);
-  }
-
-  33% {
-    transform: translateY(-9px) rotate(4deg);
-  }
-
-  66% {
-    transform: translateY(-4px) rotate(-6deg);
-  }
-}
-
-/* ─── CURSOR SPOTLIGHT ON CARDS ─── */
-.cursor-spotlight {
-  position: absolute;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(232, 160, 32, 0.1) 0%, transparent 65%);
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 0;
-  will-change: left, top;
-}
-
-/* ─── TILT CARDS ─── */
-.tilt-card {
-  transform-style: preserve-3d;
-  will-change: transform;
 }
 
 .home {
@@ -837,32 +577,19 @@ const testimonials = [
   color: #fff;
   font-weight: 700;
   font-size: 15px;
-  padding: 14px 28px;
+  padding: 15px 30px;
   border-radius: 50px;
   text-decoration: none;
   box-shadow: 0 6px 22px rgba(232, 160, 32, .4), inset 0 1px 0 rgba(255, 255, 255, .15);
-  transition: box-shadow .25s, background .25s;
+  transition: box-shadow .25s, transform .2s;
   position: relative;
   overflow: hidden;
   white-space: nowrap;
-  cursor: none;
-}
-
-.btn-gold::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, .15), transparent);
-  opacity: 0;
-  transition: opacity .2s;
-}
-
-.btn-gold:hover::before {
-  opacity: 1;
 }
 
 .btn-gold:hover {
   box-shadow: 0 12px 32px rgba(232, 160, 32, .55);
+  transform: translateY(-2px);
 }
 
 .btn-gold svg {
@@ -874,15 +601,15 @@ const testimonials = [
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid rgba(242, 237, 228, .12);
+  border: 1px solid rgba(242, 237, 228, .15);
   color: var(--cream);
   font-weight: 500;
   font-size: 15px;
-  padding: 14px 26px;
+  padding: 15px 28px;
   border-radius: 50px;
   text-decoration: none;
   transition: all .2s;
-  cursor: none;
+  backdrop-filter: blur(8px);
 }
 
 .btn-ghost:hover {
@@ -899,17 +626,17 @@ const testimonials = [
   color: var(--teal-lt);
   font-weight: 500;
   font-size: 15px;
-  padding: 14px 26px;
+  padding: 15px 28px;
   border-radius: 50px;
   text-decoration: none;
   transition: all .2s;
   backdrop-filter: blur(8px);
-  cursor: none;
 }
 
 .btn-ghost-teal:hover {
-  background: rgba(14, 165, 160, .1);
+  background: rgba(14, 165, 160, .12);
   border-color: var(--teal-lt);
+  transform: translateY(-2px);
 }
 
 .btn-ghost-teal svg {
@@ -930,12 +657,12 @@ const testimonials = [
   text-decoration: none;
   transition: all .2s;
   background: var(--gold-glow);
-  cursor: none;
 }
 
 .btn-outline:hover {
   background: rgba(232, 160, 32, .2);
   border-color: var(--gold);
+  transform: translateY(-2px);
 }
 
 .btn-outline svg {
@@ -943,46 +670,16 @@ const testimonials = [
   height: 15px;
 }
 
-/* ─── MAGNETIC PULSE ─── */
-.magnetic {
-  position: relative;
-}
-
-.magnetic::after {
-  content: '';
-  position: absolute;
-  inset: -8px;
-  border-radius: 50px;
-  border: 1px solid rgba(232, 160, 32, 0);
-  transition: all 0.35s ease;
-}
-
-.magnetic:hover::after {
-  inset: -14px;
-  border-color: rgba(232, 160, 32, 0.3);
-  animation: magneticPulse 1.2s ease infinite;
-}
-
-@keyframes magneticPulse {
-
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(232, 160, 32, 0.2);
-  }
-
-  50% {
-    box-shadow: 0 0 0 10px rgba(232, 160, 32, 0);
-  }
-}
-
 /* ─── HERO ─── */
 .hero {
   min-height: 100vh;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   position: relative;
   overflow: hidden;
   background: var(--void);
+  gap: 0;
 }
 
 .hero-stage {
@@ -1061,15 +758,17 @@ const testimonials = [
 .grid-veil {
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(rgba(255, 255, 255, .016) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .016) 1px, transparent 1px);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .016) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .016) 1px, transparent 1px);
   background-size: 72px 72px;
 }
 
 .hero-body {
   position: relative;
   z-index: 2;
-  max-width: 800px;
-  padding: 100px 28px 80px;
+  padding: 120px 28px 80px 56px;
+  max-width: none;
 }
 
 .hero-chip {
@@ -1077,7 +776,7 @@ const testimonials = [
   align-items: center;
   gap: 10px;
   background: rgba(232, 160, 32, .09);
-  border: 1px solid rgba(232, 160, 32, .2);
+  border: 1px solid rgba(232, 160, 32, .22);
   border-radius: 50px;
   padding: 9px 18px;
   margin-bottom: 32px;
@@ -1087,6 +786,7 @@ const testimonials = [
   opacity: 0;
   transform: translateY(18px);
   transition: opacity .7s, transform .7s;
+  position: relative;
 }
 
 .hero-chip.in {
@@ -1141,7 +841,7 @@ const testimonials = [
 
 .h-line {
   display: block;
-  font-size: clamp(3.2rem, 7.5vw, 6.2rem);
+  font-size: clamp(3rem, 6vw, 5.8rem);
   line-height: 1.0;
   opacity: 0;
   transform: translateY(36px);
@@ -1165,25 +865,6 @@ const testimonials = [
   transition-delay: .38s;
 }
 
-.shimmer-text {
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-lt) 40%, var(--gold) 80%);
-  background-size: 200%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 3s linear infinite;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 0%
-  }
-
-  100% {
-    background-position: 200%
-  }
-}
-
 .ghost-text {
   -webkit-text-stroke: 2px rgba(242, 237, 228, .18);
   -webkit-text-fill-color: transparent;
@@ -1192,10 +873,10 @@ const testimonials = [
 
 .hero-desc {
   color: var(--fog);
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.8;
   margin-bottom: 38px;
-  max-width: 580px;
+  max-width: 520px;
   opacity: 0;
   transform: translateY(18px);
   transition: opacity .7s ease .5s, transform .7s ease .5s;
@@ -1244,7 +925,6 @@ const testimonials = [
   border-radius: 50px;
   padding: 9px 18px;
   transition: all .2s;
-  cursor: none;
 }
 
 .pill:hover {
@@ -1261,6 +941,82 @@ const testimonials = [
 
 .pill span {
   font-size: 11.5px;
+  color: var(--fog);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+/* ─── HERO IMAGE PANEL ─── */
+.hero-image-panel {
+  position: relative;
+  z-index: 2;
+  padding: 80px 40px 80px 20px;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity .9s ease .6s, transform .9s ease .6s;
+}
+
+.hero-image-panel.in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.hip-inner {
+  position: relative;
+  height: 560px;
+}
+
+.hip-img {
+  border-radius: 20px;
+  object-fit: cover;
+  display: block;
+}
+
+.hip-main {
+  width: 100%;
+  height: 420px;
+  box-shadow: 0 32px 72px rgba(0, 0, 0, .6);
+  border: 1px solid var(--rim);
+}
+
+.hip-side {
+  position: absolute;
+  bottom: 0;
+  left: -30px;
+  width: 200px;
+  height: 200px;
+  border: 3px solid var(--abyss);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .5);
+}
+
+.hip-badge {
+  position: absolute;
+  top: 24px;
+  right: -16px;
+  background: var(--panel);
+  border: 1px solid var(--rim2);
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .5);
+}
+
+.hb-icon {
+  font-size: 22px;
+}
+
+.hip-badge strong {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--gold);
+}
+
+.hip-badge small {
+  font-size: 10.5px;
   color: var(--fog);
   text-transform: uppercase;
   letter-spacing: .08em;
@@ -1302,6 +1058,121 @@ const testimonials = [
   font-size: 9px;
 }
 
+/* ─── ABOUT STRIP ─── */
+.about-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.about-images {
+  position: relative;
+  height: 480px;
+}
+
+.ab-img {
+  border-radius: 18px;
+  object-fit: cover;
+  display: block;
+}
+
+.ab-big {
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--rim);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .5);
+}
+
+.ab-sm {
+  position: absolute;
+  bottom: -24px;
+  right: -24px;
+  width: 180px;
+  height: 180px;
+  border: 4px solid var(--abyss);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .5);
+}
+
+.ab-badge {
+  position: absolute;
+  top: 24px;
+  left: -20px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  border-radius: 14px;
+  padding: 14px 18px;
+  text-align: center;
+  box-shadow: 0 12px 32px rgba(232, 160, 32, .3);
+}
+
+.ab-badge strong {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+}
+
+.ab-badge span {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, .8);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+.about-text .sec-tag {
+  justify-content: flex-start;
+}
+
+.about-text .sec-tag::before {
+  display: none;
+}
+
+.about-text h2 {
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: clamp(1.9rem, 3.2vw, 2.7rem);
+  font-weight: 800;
+  margin-bottom: 16px;
+  line-height: 1.15;
+}
+
+.about-body {
+  color: var(--fog);
+  font-size: 15px;
+  line-height: 1.85;
+  margin-bottom: 28px;
+}
+
+.about-checks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 16px;
+}
+
+.ac-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--fog);
+}
+
+.ac-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(232, 160, 32, .12);
+  border: 1px solid rgba(232, 160, 32, .25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
 /* ─── SERVICES ─── */
 .svc-grid {
   display: grid;
@@ -1313,16 +1184,16 @@ const testimonials = [
   background: var(--slate);
   border: 1px solid var(--rim);
   border-radius: 20px;
-  padding: 30px;
+  padding: 0;
   position: relative;
   overflow: hidden;
-  transition: border-color .3s, box-shadow .3s;
-  cursor: none;
+  transition: border-color .3s, box-shadow .3s, transform .25s;
 }
 
 .svc-card:hover {
   border-color: var(--rim2);
   box-shadow: 0 20px 50px rgba(0, 0, 0, .5);
+  transform: translateY(-4px);
 }
 
 .svc-card.large {
@@ -1330,7 +1201,7 @@ const testimonials = [
 }
 
 .svc-card.featured {
-  border-color: rgba(232, 160, 32, .18);
+  border-color: rgba(232, 160, 32, .22);
 }
 
 .svc-card.featured::before {
@@ -1345,6 +1216,35 @@ const testimonials = [
   padding: 4px 11px;
   border-radius: 50px;
   letter-spacing: .08em;
+  z-index: 3;
+}
+
+.svc-img-wrap {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+
+.svc-card.large .svc-img-wrap {
+  height: 220px;
+}
+
+.svc-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .5s ease;
+}
+
+.svc-card:hover .svc-img {
+  transform: scale(1.05);
+}
+
+.svc-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(17, 24, 39, .95) 100%);
 }
 
 .svc-inner-glow {
@@ -1354,6 +1254,7 @@ const testimonials = [
   opacity: 0;
   transition: opacity .3s;
   pointer-events: none;
+  z-index: 0;
 }
 
 .svc-card:hover .svc-inner-glow {
@@ -1361,21 +1262,17 @@ const testimonials = [
 }
 
 .svc-icon {
-  font-size: 38px;
-  margin-bottom: 16px;
+  font-size: 32px;
   display: block;
-  transition: transform .3s;
   position: relative;
   z-index: 1;
-}
-
-.svc-card:hover .svc-icon {
-  transform: scale(1.15) rotate(-6deg);
+  padding: 20px 28px 0;
 }
 
 .svc-content {
   position: relative;
   z-index: 1;
+  padding: 14px 28px 28px;
 }
 
 .svc-content h3 {
@@ -1446,6 +1343,61 @@ const testimonials = [
   margin-top: 48px;
 }
 
+/* ─── GALLERY STRIP ─── */
+.gallery-strip {
+  overflow: hidden;
+  padding: 0;
+  background: var(--void);
+}
+
+.gallery-track {
+  display: flex;
+  gap: 0;
+}
+
+.gal-item {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  height: 260px;
+}
+
+.gal-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .5s ease, filter .5s ease;
+  filter: brightness(.7) saturate(.8);
+}
+
+.gal-item:hover img {
+  transform: scale(1.08);
+  filter: brightness(.9) saturate(1);
+}
+
+.gal-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 14px;
+  background: linear-gradient(to top, rgba(0, 0, 0, .75), transparent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .8);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: all .3s ease;
+}
+
+.gal-item:hover .gal-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* ─── PROCESS ─── */
 .proc-grid {
   display: grid;
@@ -1460,13 +1412,13 @@ const testimonials = [
   padding: 30px 24px;
   text-align: center;
   position: relative;
-  transition: border-color .3s, box-shadow .3s;
-  cursor: none;
+  transition: border-color .3s, box-shadow .3s, transform .25s;
 }
 
 .proc-card:hover {
   border-color: var(--rim2);
   box-shadow: 0 18px 44px rgba(0, 0, 0, .4);
+  transform: translateY(-4px);
 }
 
 .proc-num {
@@ -1550,7 +1502,7 @@ const testimonials = [
 .why-feats {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 
 .wf {
@@ -1558,13 +1510,14 @@ const testimonials = [
   gap: 16px;
   align-items: flex-start;
   border-radius: 14px;
-  padding: 12px;
+  padding: 14px;
   transition: background .2s;
-  cursor: none;
+  border: 1px solid transparent;
 }
 
 .wf:hover {
   background: rgba(232, 160, 32, .04);
+  border-color: var(--rim);
 }
 
 .wf-icon {
@@ -1579,8 +1532,6 @@ const testimonials = [
   justify-content: center;
   flex-shrink: 0;
   transition: transform .3s;
-  position: relative;
-  z-index: 1;
 }
 
 .wf:hover .wf-icon {
@@ -1599,41 +1550,60 @@ const testimonials = [
   line-height: 1.6;
 }
 
+/* ─── WHY RIGHT IMAGE STACK ─── */
 .why-right {
   position: relative;
-  padding: 20px;
+  padding: 40px 20px;
+}
+
+.why-img-stack {
+  position: relative;
+  height: 400px;
+  margin-bottom: 24px;
+}
+
+.ws-main {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  display: block;
+  border: 1px solid var(--rim);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .5);
+}
+
+.ws-accent {
+  position: absolute;
+  bottom: -30px;
+  right: -20px;
+  width: 160px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 14px;
+  display: block;
+  border: 3px solid var(--abyss);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .5);
 }
 
 .why-card {
   background: var(--slate);
   border: 1px solid rgba(232, 160, 32, .18);
   border-radius: 22px;
-  padding: 34px;
+  padding: 28px;
   position: relative;
   overflow: hidden;
-  cursor: none;
-}
-
-.wc-shine {
-  position: absolute;
-  top: -60px;
-  right: -60px;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(232, 160, 32, .1), transparent 70%);
-  pointer-events: none;
+  margin-top: 16px;
 }
 
 .wc-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 .wc-icon {
-  font-size: 42px;
+  font-size: 38px;
 }
 
 .wc-badge {
@@ -1648,28 +1618,22 @@ const testimonials = [
 
 .why-card h3 {
   font-family: 'Cormorant Garamond', 'Playfair Display', serif;
-  font-size: 1.35rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  margin-bottom: 11px;
-  position: relative;
-  z-index: 1;
+  margin-bottom: 10px;
 }
 
 .why-card p {
   color: var(--fog);
-  font-size: 14px;
-  line-height: 1.75;
-  margin-bottom: 20px;
-  position: relative;
-  z-index: 1;
+  font-size: 13.5px;
+  line-height: 1.7;
+  margin-bottom: 18px;
 }
 
 .wc-checks {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  position: relative;
-  z-index: 1;
 }
 
 .wc-checks span {
@@ -1705,18 +1669,18 @@ const testimonials = [
 
 .st1 {
   top: -14px;
-  right: -14px;
+  right: 10px;
   animation-delay: 0s;
 }
 
 .st2 {
-  bottom: -14px;
+  bottom: 80px;
   left: -18px;
   animation-delay: 1.6s;
 }
 
 .st3 {
-  bottom: 56px;
+  top: 160px;
   right: -18px;
   animation-delay: 3s;
 }
@@ -1753,13 +1717,13 @@ const testimonials = [
   padding: 30px;
   position: relative;
   overflow: hidden;
-  transition: border-color .3s, box-shadow .3s;
-  cursor: none;
+  transition: border-color .3s, box-shadow .3s, transform .25s;
 }
 
 .testi-card:hover {
   border-color: var(--rim2);
   box-shadow: 0 18px 44px rgba(0, 0, 0, .4);
+  transform: translateY(-4px);
 }
 
 .tq {
@@ -1839,10 +1803,28 @@ const testimonials = [
 
 /* ─── CTA ─── */
 .cta-band {
-  background: linear-gradient(135deg, #0e0b04 0%, #0a0e18 50%, #060811 100%);
   padding: 96px 0;
   position: relative;
   overflow: hidden;
+}
+
+.cta-bg-img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.cta-bg-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cta-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(6, 9, 17, .92) 0%, rgba(10, 14, 24, .88) 50%, rgba(6, 8, 17, .92) 100%);
 }
 
 .cta-light {
@@ -1852,15 +1834,19 @@ const testimonials = [
   transform: translateX(-50%);
   width: 600px;
   height: 350px;
-  background: radial-gradient(ellipse, rgba(232, 160, 32, .12) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(232, 160, 32, .15) 0%, transparent 70%);
   pointer-events: none;
+  z-index: 1;
 }
 
 .cta-mesh {
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(rgba(232, 160, 32, .03) 1px, transparent 1px), linear-gradient(90deg, rgba(232, 160, 32, .03) 1px, transparent 1px);
+  background-image:
+    linear-gradient(rgba(232, 160, 32, .04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 160, 32, .04) 1px, transparent 1px);
   background-size: 48px 48px;
+  z-index: 1;
 }
 
 .cta-row {
@@ -1870,7 +1856,7 @@ const testimonials = [
   gap: 40px;
   flex-wrap: wrap;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .cta-words h2 {
@@ -1893,6 +1879,28 @@ const testimonials = [
 
 /* ─── RESPONSIVE ─── */
 @media(max-width:1024px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-image-panel {
+    display: none;
+  }
+
+  .hero-body {
+    padding: 100px 28px 80px;
+    max-width: 700px;
+  }
+
+  .about-row {
+    grid-template-columns: 1fr;
+    gap: 56px;
+  }
+
+  .about-images {
+    height: 360px;
+  }
+
   .svc-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1926,15 +1934,19 @@ const testimonials = [
   .cta-btns {
     justify-content: center;
   }
+
+  .gallery-track {
+    flex-wrap: wrap;
+  }
+
+  .gal-item {
+    flex: 0 0 50%;
+  }
 }
 
 @media(max-width:768px) {
   .section {
     padding: 72px 0;
-  }
-
-  .hero-body {
-    padding: 72px 28px 56px;
   }
 
   .svc-grid,
@@ -1943,16 +1955,12 @@ const testimonials = [
     grid-template-columns: 1fr;
   }
 
-  /* hide stickers on mobile */
-  .sticker-field,
-  .cursor-ring,
-  .cursor-dot,
-  .cursor-trail {
-    display: none;
+  .gallery-track {
+    flex-wrap: wrap;
   }
 
-  .home {
-    cursor: auto;
+  .gal-item {
+    flex: 0 0 100%;
   }
 }
 
@@ -1968,6 +1976,10 @@ const testimonials = [
   .cta-btns a {
     width: 100%;
     justify-content: center;
+  }
+
+  .about-checks {
+    grid-template-columns: 1fr;
   }
 }
 </style>
